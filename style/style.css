@@ -1,0 +1,93 @@
+html, body {
+    background-color: #D7CDC3;
+}
+body {
+    padding-top: 5px;
+    font-family: Georgia;
+    width: 940px;
+    margin: 0 auto;
+    color: #000;
+}
+h3 {
+   text-shadow: 1px 1px 2px  rgba(0,0,0,0.6);
+}
+#header {
+    height: 120px;
+    font-size: 20px;
+    background: url(/../images/gazeta.jpg) no-repeat #b2b2b2;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    border-radius: 3px;
+}
+#logo{
+    display: inline-block;
+    float: left;
+    background-image: url(/../images/logo.png);
+    width: 529px;
+    height: 120px;
+}
+#vasya {
+    display: inline-block;
+    float: left;
+    background: url(/../images/vasya.png) no-repeat;
+    width: 138px;
+    height: 120px;
+}
+/* меню */
+#admin_menu {
+    margin: 5px auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 50px;
+    vertical-align: top;
+    background-image: linear-gradient(to top, #EFE7DE, #D7CDC3, #EFE7DE);
+    border: 1px solid grey;
+    
+}
+#button {
+    height: 26px;
+    border-radius: 3px;
+    border: 1px solid #E87700;
+    padding: 3px 10px 0px 10px;
+    background-image: linear-gradient(to top, #FF8300, #FF9E38, #FFAE59,#FF9E38, #FF8300);
+    margin-top: 10px;
+}
+#button a {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+}
+/* контент */
+#content {
+    padding: 10px;
+}
+#art_desc {
+    border-radius: 3px;
+    background: linear-gradient(to top, #EFE7DE , #D7CDC3);
+    box-shadow: 0px 1px 2px rgba(0,0,0,0.6);
+    padding: 10px;
+    margin: 15px 0px;
+}
+#footer {
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    vertical-align: middle;
+    padding: 15px;
+    border-radius: 3px;
+    background-color: #b2b2b2;
+}
+
+/* кнопка "читать полностью" ** кнопка ""назад */
+.oranged {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #FF8300;
+    text-decoration: none;
+    text-shadow: 1px 1px rgba(0,0,0,0.6);
+}
+a.oranged:hover{
+    text-shadow: 0px 0px 3px rgba(255,255,255,0.6), -1px -1px rgba(0,0,0,0.6);
+}
+.param {
+    font-size: 0.8em;
+    color: #000;
+    opacity: 0.4;
+}
