@@ -21,8 +21,8 @@ class Search {
                             <option selected value="">все новости</option>
 HTML_ENTITIES;
                         foreach ($this->_categories as $category) {
-                            $selected = ($news->cat==$category->cat_title) ? 'selected="selected" ' : '';
-                            echo "<option value='".$category->cat_id."'>".$category->cat_title."</option>";
+                            $selected = ($news->cat==$category->title) ? 'selected="selected" ' : '';
+                            echo "<option value='".$category->id."'>".$category->title."</option>";
                         }  
                         echo <<<HTML_ENTITIES
                         <select/>

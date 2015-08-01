@@ -18,7 +18,7 @@ class UserController implements IController{
                 $this->_where['art_category'] = abs((int)$_POST['category']);
         }
         $search = [];
-        $search['categories'] = AdminModel::Factory('getAllCategories',NULL);
+        $search['categories'] = CategoryModel::Factory('getAll');
         $items = UserModel::Factory('getAll', $this->_where);
         $all = new ViewAllNews($search, $items);
         $all->getBody();

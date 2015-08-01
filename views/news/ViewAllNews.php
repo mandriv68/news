@@ -11,10 +11,10 @@
         public function getContent() {
             $srch = new Search($this->_search_array);
             $srch->search();
-            foreach ($this->_items as $item) {
-                $href = '/user/onenews/id/'.$item->art_id;
-                echo '<div id="art_desc"> <h3>'.$item->art_title.'</h3>';
-                echo "<div>$item->art_description".
+            foreach ($this->_items as $news) {
+                $href = '/user/onenews/id/'.$news->id;
+                echo '<div id="art_desc"> <h3>'.$news->title.'</h3>';
+                echo "<div>$news->description".
                     "<a href='$href' class='oranged'>  ...читать полностью</a></div></div>";
             }
         }
