@@ -9,9 +9,13 @@ class CategoryModel extends AbstractModel{
     
     public static function Factory($method_name, $pl_holders_array=NULL) {
         switch ($method_name) {
+            
             case 'addCategory':
-
-
+                $query = 'INSERT INTO '.self::$table.
+                    ' ('.self::$fields.') '
+                    . 'VALUES('.self::$plaseholders.')';
+                $res = self::saveANDdelete($query, $pl_holders_array);
+                $_SESSION['res'] = $res ? 'категория успешно добавлена' : 'неверные данные';
                 break;
             
             /* выбрать все категории из таблицы categories*/
