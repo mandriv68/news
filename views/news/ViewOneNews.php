@@ -21,9 +21,6 @@ class ViewOneNews extends AbstractView{
         }
     
     }
-    
-//    echo '<h3>'.$item->art_title.'</h3>';
-//    echo '<div>'.$item->art_text.'</div>';
 
 
     
