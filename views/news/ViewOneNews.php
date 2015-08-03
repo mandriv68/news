@@ -1,7 +1,7 @@
 <?php
 
 class ViewOneNews extends AbstractView{
-        private $_item = [];
+        private $_item;
         
         public function __construct($item) {
             $this->_item = $item;

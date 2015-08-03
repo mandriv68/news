@@ -11,7 +11,7 @@ class AdminController implements IController{
     
     public function MainAction()
     {
-        $items = AdminModel::Factory('Main',NULL);
+        $items = NewsModel::Factory('Main',NULL);
         $view = new ViewAdmMain($items);
         $view->getBody();
         unset($_SESSION['res']);
@@ -49,8 +49,8 @@ class AdminController implements IController{
         } else {
             view_adm_edit:     // метка перехода
             $categories = CategoryModel::Factory('getAll');
-            $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
-            $news = $_POST ? (object)$_POST : AdminModel::Factory('getNews',$arr_placeholders);
+            $arr_placeholders['art_id'] = abs((int)$this->_fc->getParams()['id']);
+            $news = $_POST ? (object)$_POST : NewsModel::Factory('getNews',$arr_placeholders);
             $view = new ViewAdmSave($categories,$news);
             $view->getBody();
         }
@@ -60,7 +60,7 @@ class AdminController implements IController{
     {
         if (array_key_exists('id', $this->_fc->getParams())){
             $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
-            AdminModel::Factory('deleteNews',$arr_placeholders);
+            NewsModel::Factory('deleteNews',$arr_placeholders);
             header("Location:/admin/main");
         } else {
             echo 'неверные данные для обработки'; die;
@@ -71,7 +71,7 @@ class AdminController implements IController{
     public function save($method_name)
     {
         $arr_placeholders = $this->handlerAddForm();
-        AdminModel::Factory($method_name,$arr_placeholders);
+        NewsModel::Factory($method_name,$arr_placeholders);
         header("Location:/admin/main");
     }
     
