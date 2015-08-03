@@ -23,18 +23,18 @@ HTML_ENTITIES;
         if (!empty($_SESSION['res'])){
             echo '<p style="text-align:center;color:#FF8300;font-weight:700;">'.$_SESSION['res'].'</p>';
         }
-        foreach ($this->_items as $item) {
-            $href_edit = '/admin/editnews/id/'.$item->art_id;
-            $href_del = '/admin/delitenews/id/'.$item->art_id;
-            $sub = substr($item->art_description,0,300);
+        foreach ($this->_items as $news) {
+            $href_edit = '/admin/editnews/id/'.$news->id;
+            $href_del = '/admin/delitenews/id/'.$news->id;
+            $sub = substr($news->description,0,300);
             $desc =  explode(' ',$sub);
-            $i = count($desc)-1;
-            unset($desc[$i]);
-            $it = implode(' ',$desc);
+//            $i = count($desc)-1;
+            unset($desc[count($desc)-1]);
+            $description = implode(' ',$desc);
             echo <<<HTML_ENTITIES
             <div style="border:1px solid grey;padding:0px 10px; margin:10px auto;">
-                <h3 style="margin-bottom:-10px;">$item->art_title</h3>
-                <p style="margin-bottom:-10px;">$it<span stile="color:#FF8300;font-weight:bold;">&nbsp&nbsp...</span></p>
+                <h3 style="margin-bottom:-10px;">$news->title</h3>
+                <p style="margin-bottom:-10px;">$description<span stile="color:#FF8300;font-weight:bold;">&nbsp&nbsp...</span></p>
                 <p style="text-align:right;color:#FF8300;line-height:80%;">
                     <a href="$href_edit" class="oranged">редактировать</a>
                     <span>&nbsp&nbsp::&nbsp&nbsp</span>

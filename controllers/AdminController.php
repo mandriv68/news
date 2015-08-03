@@ -25,13 +25,13 @@ class AdminController implements IController{
                 $this->save('addNews');
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
-                unset($_POST);
                 goto view_adm_add;
             }
         } else {
             view_adm_add:     // метка перехода
-            $categories = AdminModel::Factory('getAllCategories',NULL);
-            $view = new ViewAdmAdd($categories);
+            $categories = CategoryModel::Factory('getAll');
+            $news = $_POST ? (object)$_POST : NULL;
+            $view = new ViewAdmSave($categories,$news);
             $view->getBody();
         }
     }
@@ -41,18 +41,17 @@ class AdminController implements IController{
         unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) {
-                $this->save('editNews',$_SESSION['id']);
+                $this->save('editNews');
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
-                unset($_POST);
                 goto view_adm_edit;
             }
         } else {
             view_adm_edit:     // метка перехода
-            $categories = AdminModel::Factory('getAllCategories',NULL);
-            $_SESSION['id'] = abs((int)$this->_fc->getParams()['id']);
-            $news = AdminModel::Factory('getNews',NULL, $_SESSION['id']);
-            $view = new ViewAdmEdit($categories,$news);
+            $categories = CategoryModel::Factory('getAll');
+            $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
+            $news = $_POST ? (object)$_POST : AdminModel::Factory('getNews',$arr_placeholders);
+            $view = new ViewAdmSave($categories,$news);
             $view->getBody();
         }
     }
@@ -69,25 +68,19 @@ class AdminController implements IController{
     }
     
     /* сохранение данных из формы */
-    public function save($method_name,$id=NULL)
+    public function save($method_name)
     {
-        $post = &$_POST;
-        $arr_placeholders = $this->handlerAddForm($post);
-        AdminModel::Factory($method_name,$arr_placeholders,$id);
+        $arr_placeholders = $this->handlerAddForm();
+        AdminModel::Factory($method_name,$arr_placeholders);
         header("Location:/admin/main");
     }
     
     /* обработчик формы */
-    public function handlerAddForm($post)
+    public function handlerAddForm()
     {
         $place_array = [];
-        $cnt = count($post)-1;$i = 0;
-        foreach ($post as $key => $value) {
-            if($i<$cnt){
-                $ph = ':'.$key;
-                $place_array[$ph] = $value;
-                $i++;
-            } else break;
+        foreach ($_POST as $key => $value) {
+                $place_array[':'.$key] = $value;
         }
         return $place_array;
     }

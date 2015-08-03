@@ -18,7 +18,6 @@ class AbstractModel {
     }
     
     public static function getOne($query) {
-//        $query = 'SELECT '.static::$fields.' FROM '.static::$table.' WHERE art_id='.$id.' AND categories.cat_id=articles.art_category';
         return DBconnect::getInstance()->fetchObj($query, self::getClass());
     }
     

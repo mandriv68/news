@@ -56,12 +56,16 @@ HTML;
         <select name="category">
 HTML_ENTITIES;
         foreach ($categories as $category) {
-            $selected = ($news->cat==$category->cat_title) ? 'selected="selected" ' : '';
-            echo "<option ".$selected."value='".$category->cat_id."'>".$category->cat_title."</option>";
+            $selected = ($news->cat==$category->title) ? 'selected="selected" ' : '';
+            echo "<option ".$selected."value=".$category->id.">"
+                    .$category->title."</option>";
         }  
         echo <<<HTML_ENTITIES
         <select/>
-        <p><input name="button" type="submit" value="Сохранить"/></p>
+        <input name="id" type="hidden" value={$news->id}>
+        <p>
+            <input type="submit" value="Сохранить"/>
+        </p>
     </form>
 HTML_ENTITIES;
     }
