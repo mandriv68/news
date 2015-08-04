@@ -2,6 +2,7 @@
     class ViewAllNews extends AbstractView{
         private $_search_array = [];
         private $_items = [];
+        private $_style = '';
         
         public function __construct($search_array,$items) {
             $this->_items = $items;
@@ -9,6 +10,7 @@
         }
 
         public function getContent() {
+            echo "<div id='content' style='$this->_style'>";
             $srch = new Search($this->_search_array);
             $srch->search();
             foreach ($this->_items as $news) {
@@ -17,6 +19,7 @@
                 echo "<div>$news->description".
                     "<a href='$href' class='oranged'>  ...читать полностью</a></div></div>";
             }
+            echo '</div>';
         }
                 
         public function getBody() {

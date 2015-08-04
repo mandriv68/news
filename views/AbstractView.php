@@ -16,10 +16,13 @@ class AbstractView {
                 <div id="logo"></div>
                 <div id="vasya"></div>
             </div>
+            <div id="wrapper">
 HTML;
     }
     
     protected function getMenu() {}
+    
+    protected function getLeftBar() {}
     
     protected function getSearch() {}
     
@@ -27,7 +30,8 @@ HTML;
     
     protected function getFuter() {
         echo <<<HTML
-                <div id="footer">
+            </div>
+            <div id="footer">
                 собственность ВП, копирование запрещено!!!
             </div>
         </body>

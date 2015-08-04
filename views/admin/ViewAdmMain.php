@@ -3,6 +3,7 @@
 class ViewAdmMain extends AbstractView{
     
     private $_items = [];
+    private $_style = '';
     
     public function __construct($items) {
         $this->_items = $items;
@@ -19,20 +20,46 @@ class ViewAdmMain extends AbstractView{
 HTML_ENTITIES;
     }
     
+    protected function getLeftBar() {
+        echo <<<HTML_ENTITIES
+        <div id="leftbar">
+            <ul>
+                <li>leftbar1</li>
+                <li>leftbar2</li>
+                <li>leftbar3</li>
+                <li>leftbar4</li>
+            </ul>
+        </div>
+HTML_ENTITIES;
+        $this->_style = 'margin-left:200px;border-left:2px solid rgba(255, 131, 0,0.2)';
+    }
+    
     protected function getContent() {
-        if (!empty($_SESSION['res'])){
-            echo '<p style="text-align:center;color:#FF8300;font-weight:700;">'.$_SESSION['res'].'</p>';
-        }
-        foreach ($this->_items as $news) {
-            $href_edit = '/admin/editnews/id/'.$news->id;
-            $href_del = '/admin/delitenews/id/'.$news->id;
-            $sub = substr($news->description,0,300);
-            $desc =  explode(' ',$sub);
-//            $i = count($desc)-1;
-            unset($desc[count($desc)-1]);
-            $description = implode(' ',$desc);
+        echo <<<HTML_ENTITIES
+        <div id="content" style="$this->_style">
+            <div style="height:31px;margin-top:10px;">
+                <div style="text-align:center;color:#FF8300;font-weight:700;height: 28px;width:70%;float:left;display:inline-block;">:: 
+HTML_ENTITIES;
+            if (!empty($_SESSION['res'])){
+                echo $_SESSION['res'];
+            }
             echo <<<HTML_ENTITIES
-            <div style="border:1px solid grey;padding:0px 10px; margin:10px auto;">
+              ::</div>
+                <div id="button">
+                    <a href="/admin/addnews">добавить новость</a>
+                </div>
+            </div>
+HTML_ENTITIES;
+            foreach ($this->_items as $news) {
+                $href_edit = '/admin/editnews/id/'.$news->id;
+                $href_del = '/admin/delitenews/id/'.$news->id;
+                $sub = substr($news->description,0,300);
+                $desc =  explode(' ',$sub);
+    //            $i = count($desc)-1;
+                unset($desc[count($desc)-1]);
+                $description = implode(' ',$desc);
+                echo <<<HTML_ENTITIES
+            <div style="border:1px solid rgba(255, 131, 0,0.2);padding:0px 10px; margin:10px auto;">
                 <h3 style="margin-bottom:-10px;">$news->title</h3>
                 <p style="margin-bottom:-10px;">$description<span stile="color:#FF8300;font-weight:bold;">&nbsp&nbsp...</span></p>
                 <p style="text-align:right;color:#FF8300;line-height:80%;">
@@ -43,11 +70,12 @@ HTML_ENTITIES;
             </div>
 HTML_ENTITIES;
         }
-        }
+    echo '</div>';    
+    }
     
     public function getBody() {
         $this->getHeader();
-        $this->getMenu();
+        $this->getLeftBar();
         $this->getContent();
         $this->getFuter();
     }

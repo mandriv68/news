@@ -17,7 +17,7 @@ class Search {
             <p>сортировка</p>
                 <form action="/user/allnews" method="POST">
                     <p>    
-                        <select name="category">
+                        <select style="border:1px solid rgba(255, 131, 0,0.2)" name="category">
                             <option selected value="">все новости</option>
 HTML_ENTITIES;
                         foreach ($this->_categories as $category) {
