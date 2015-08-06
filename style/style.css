@@ -78,7 +78,7 @@ h3 {
 #art_desc {
     border-radius: 3px;
     background: linear-gradient(to top, #EFE7DE , #D7CDC3);
-    box-shadow: 0px 1px 2px rgba(0,0,0,0.6);
+    box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin: 15px 0px;
 }
@@ -88,6 +88,7 @@ h3 {
     padding: 15px;
     border-radius: 3px;
     background-color: #b2b2b2;
+    margin-bottom: 15px;
 }
 
 /* кнопка "читать полностью" ** кнопка ""назад */
@@ -106,3 +107,27 @@ a.oranged:hover{
     color: #000;
     opacity: 0.4;
 }
+.sbmt,.slct {
+    display:inline-block;
+    float:left;
+}
+
+.sbmt {
+    margin-left:20px;
+    background: linear-gradient(to top, #FF8300, #FF9E38, #FFAE59,#FF9E38, #FF8300);
+    border-radius: 3px;
+    border: 1px solid #E87700;
+}
+.slct {
+    border-radius: 3px;
+    border: 2px solid rgba(255, 131, 0, 0.6);
+}
+input.slct {
+    margin-left:5px;
+}
+b.slct {
+    border: none;
+    font-size: 0.6em;
+    margin-top: 5px;
+}
+

@@ -15,9 +15,7 @@ class FrontController {
     
     public function __construct() {
         $request = $_SERVER['REQUEST_URI'];
-        //echo $request;die;
         $str = explode('/', trim($request,'/'));
-        //var_dump($str);die;
         $this->_controller = !empty($str[0]) ? ucfirst($str[0]).'Controller' : 'UserController';
         $this->_action = !empty($str[1]) ? ucfirst($str[1]).'Action' : 'AllnewsAction';
         if(!empty($str[2])){
@@ -29,10 +27,7 @@ class FrontController {
                     $val[] = $str[$i];
                 }
             }
-            //var_dump($key);
-            //var_dump($val);
             $this->_params = array_combine($key, $val);
-            //var_dump($this->_params);die;
         }
     }
     

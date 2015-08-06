@@ -9,7 +9,7 @@ class ViewOneNews extends AbstractView{
 
         public function getContent() {
             echo '<div id="art_desc"> <h3>'.$this->_item->title.'</h3>';
-            echo '<p class="param">'.$this->_item->datetime.':: Автор:'.$this->_item->author.'<br>=> категория: '.$this->_item->cat;
+            echo '<p class="param">'.date("Y-m-d", $this->_item->datetime).':: Автор:'.$this->_item->author.'<br>=> категория: '.$this->_item->cat;
             echo "<div>".$this->_item->text.
                 "<a href='/user/allnews' class='oranged' title='на главную'>назад</a></div></div>";
         }

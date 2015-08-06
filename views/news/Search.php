@@ -17,7 +17,7 @@ class Search {
             <p>сортировка</p>
                 <form action="/user/allnews" method="POST">
                     <p>    
-                        <select style="border:1px solid rgba(255, 131, 0,0.2)" name="category">
+                        <select class="slct" name="category">
                             <option selected value="">все новости</option>
 HTML_ENTITIES;
                         foreach ($this->_categories as $category) {
@@ -26,8 +26,46 @@ HTML_ENTITIES;
                         }  
                         echo <<<HTML_ENTITIES
                         <select/>
-                        <input stile="display:inline-block;float:left;margin-left:20px;" type="submit" value="OK">
-                                        <input stile="display:inline-block;float:left;margin-left:20px;" type="reset" value="Очистить">
+                        <span style="display:inline-block;margin-left:20px;float:left;">
+                            <b class="slct">с даты</b>
+                            <input class="slct" style="width:35px;"
+                                                name="from_date_day" 
+                                                type="number"
+                                                placeholder="ДД"
+                                                min="1" max="31"/>
+                            <input class="slct" style="width:35px;"
+                                                name="from_date_month" 
+                                                type="number"
+                                                placeholder="ММ"
+                                                min="1" max="12"/>
+                            <input class="slct" style="width:45px;"
+                                                name="from_date_year" 
+                                                type="number"
+                                                placeholder="ГГГГ"
+                                                min="2015" max="2016"/>
+                        
+                        </span>
+                        <span style="display:inline-block;margin-left:20px;float:left;">
+                            <b class="slct">по дату</b>
+                            <input class="slct" style="width:35px;"
+                                                name="by_date_day" 
+                                                type="number"
+                                                placeholder="ДД"
+                                                min="1" max="31"/>
+                            <input class="slct" style="width:35px;"
+                                                name="by_date_month" 
+                                                type="number"
+                                                placeholder="ММ"
+                                                min="1" max="12"/>
+                            <input class="slct" style="width:45px;"
+                                                name="by_date_year" 
+                                                type="number"
+                                                placeholder="ГГГГ"
+                                                min="2015" max="2016"/>
+                        
+                        </span>
+                        <input class="sbmt" type="submit" value="OK">
+                        <input class="sbmt" type="reset" value="Очистить">
                     </p>
                 </form>
             </div>

@@ -13,7 +13,6 @@ class UserController implements IController{
     public function AllnewsAction()
     {
         if ($_SERVER['REQUEST_METHOD']=='POST'){
-            var_dump($_POST['category']);
             if ($_POST['category'] !=NULL) {
             $this->_where['art_category'] = abs((int)$_POST['category']);
             }

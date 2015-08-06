@@ -24,7 +24,7 @@ HTML_ENTITIES;
     }
     
     protected function getContent() {
-        $datetime = date("Y-m-d", time());
+        $datetime = time();
         if (isset($_SESSION['msgs']))
             echo '<p>'.$_SESSION['msgs'].'</p>';
         $this->getForm($datetime, $this->_categories, $this->_news);
