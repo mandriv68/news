@@ -13,9 +13,8 @@ class UserController implements IController{
     public function AllnewsAction()
     {
         if ($_SERVER['REQUEST_METHOD']=='POST'){
-            if ($_POST['category'] !=NULL) {
-            $this->_where['art_category'] = abs((int)$_POST['category']);
-            }
+            if(!empty($_POST['category'])||!empty($_POST['from_date'])||!empty($_POST['by_date'])) $this->_where = $_POST;
+            else $this->_where = NULL;
         }
         $search = [];
         $search['categories'] = CategoryModel::Factory('getAll');

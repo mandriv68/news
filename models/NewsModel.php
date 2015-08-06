@@ -74,4 +74,8 @@ class NewsModel extends AbstractModel{
                 return self::getAll($query);
         }
     }
+    
+    protected static function handlerWhere($param) {
+        $where = ' WHERE ';
+    }
 }

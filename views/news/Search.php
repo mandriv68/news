@@ -4,7 +4,6 @@ class Search {
     
     private $_categories;
     private $_authors;
-//    private $_datetime;
     
     public function __construct($search) {
         $this->_categories = $search['categories'];
@@ -26,43 +25,9 @@ HTML_ENTITIES;
                         }  
                         echo <<<HTML_ENTITIES
                         <select/>
-                        <span style="display:inline-block;margin-left:20px;float:left;">
-                            <b class="slct">с даты</b>
-                            <input class="slct" style="width:35px;"
-                                                name="from_date_day" 
-                                                type="number"
-                                                placeholder="ДД"
-                                                min="1" max="31"/>
-                            <input class="slct" style="width:35px;"
-                                                name="from_date_month" 
-                                                type="number"
-                                                placeholder="ММ"
-                                                min="1" max="12"/>
-                            <input class="slct" style="width:45px;"
-                                                name="from_date_year" 
-                                                type="number"
-                                                placeholder="ГГГГ"
-                                                min="2015" max="2016"/>
-                        
-                        </span>
-                        <span style="display:inline-block;margin-left:20px;float:left;">
-                            <b class="slct">по дату</b>
-                            <input class="slct" style="width:35px;"
-                                                name="by_date_day" 
-                                                type="number"
-                                                placeholder="ДД"
-                                                min="1" max="31"/>
-                            <input class="slct" style="width:35px;"
-                                                name="by_date_month" 
-                                                type="number"
-                                                placeholder="ММ"
-                                                min="1" max="12"/>
-                            <input class="slct" style="width:45px;"
-                                                name="by_date_year" 
-                                                type="number"
-                                                placeholder="ГГГГ"
-                                                min="2015" max="2016"/>
-                        
+                        <span class="slct">
+                          <input class="slct" type="text" name="from_date" onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"  placeholder="с даты">                       
+                          <input class="slct" type="text" name="by_date" onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"  placeholder="по дату">
                         </span>
                         <input class="sbmt" type="submit" value="OK">
                         <input class="sbmt" type="reset" value="Очистить">

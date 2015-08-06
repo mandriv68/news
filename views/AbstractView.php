@@ -9,6 +9,7 @@ class AbstractView {
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
         <title>новостная лента</title>
+        <script src="/../js/calendar_ru.js" type="text/javascript"></script>
         <link href="/../style/style.css" rel="stylesheet" type="text/css" />
         </head>
         <body>

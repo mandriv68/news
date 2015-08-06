@@ -3,7 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
 <title>новостная лента</title>
-<link href="style/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.date_input.js"></script>
+    <script type="text/javascript">$($.date_input.initialize);</script>
+    <link rel="stylesheet" href="style/date_input.css" type="text/css">
+    <link href="style/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div id="header">
@@ -24,6 +28,11 @@
         <div id="content">
             <div id="search">
                 сдесь будет сортировка !!! сдесь будет сортировка !!!
+                <form action="#">
+                    <p>
+                      <input type="text" name="date" class="date_input">
+                    </p>
+                </form>
             </div>
             <p>Ut ius velit impedit aliquando, eam an dictas minimum, 
          at partem iracundia reformidans nec. Mei ad sale adhuc, 
