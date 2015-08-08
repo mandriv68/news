@@ -36,7 +36,8 @@ class NewsModel extends AbstractModel{
             case 'editNews':
                 $cnt = count($plhld_array); $plhld = ''; $fld = ''; $where = ''; $set = '';
                 foreach ($plhld_array as $plhld => $v) {
-                    --$cnt; $fld = 'art_'.ltrim($plhld, ':');
+                    --$cnt;
+                    $fld = 'art_'.ltrim($plhld, ':');
                     if (!$cnt) {
                         $where = $fld.'='.$plhld;
                     } else {
@@ -59,23 +60,37 @@ class NewsModel extends AbstractModel{
                     self::$plaseholders .= (!$cnt) ? $k : ($k.',');
                 }
                 $query = 'INSERT INTO '.self::$table.' ('.self::$fields.') VALUES('.self::$plaseholders.')';
-//                VarDump::dump($plhld_array);VarDump::dump($query);die;
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = $res ? 'новость успешно добавлена' : 'неверные данные';
                 break;
             
 /* показать все новости */
             default:
-                if(!empty($plhld_array)){
-                    list($key,$val) = each($plhld_array);
-                    self::$where = ' WHERE '.$key.'='.$val;
-                }
+                self::$where = self::handlerInputData($plhld_array);
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table.self::$where;
                 return self::getAll($query);
         }
     }
     
-    protected static function handlerWhere($param) {
-        $where = ' WHERE ';
+    protected static function handlerInputData($arr) {
+        $where = '';
+        if (!$arr) return $where;
+        while (list($key,$val) = each($arr)) {
+            $pos = strpos($where, 'WHERE');
+            switch ($key) {
+                case 'category': 
+                    $where .= ' WHERE art_'.$key.'='.$val; break;
+                case 'from_date':
+                    $where .= ($pos===FALSE) ? (' WHERE art_datetime >= '.self::mkTime($val)) : (' AND art_datetime >= '.self::mkTime($val)); break;
+                case 'by_date':
+                    $where .= ($pos===FALSE) ? (' WHERE art_datetime <= '.  self::mkTime($val)) : (' AND art_datetime <= '.self::mkTime($val)); break;
+            }
+        }
+        return $where;
+    }
+    
+    protected static function mkTime($d) {
+        $date = explode('-', $d);
+        return mktime(0, 0, 0, $date[1], $date[0], $date[2]);
     }
 }
