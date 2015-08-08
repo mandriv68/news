@@ -7,8 +7,8 @@ class NewsModel extends AbstractModel{
     protected static $placeholders = '';
     protected static $where = '';
 
-        public static function Factory($method_name, $plhld_array) {
-        
+    public static function Factory($method_name, $plhld_array) 
+    {
         switch ($method_name) {
 /* выборка одной новости */
             case 'getNews':
@@ -19,7 +19,6 @@ class NewsModel extends AbstractModel{
                 self::$where .= ' AND categories.cat_id=articles.art_category';
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table.self::$where;
                 return self::getOne($query);
-                break;
             
 /* удаление новости */    
             case 'deleteNews':
@@ -36,7 +35,8 @@ class NewsModel extends AbstractModel{
             case 'editNews':
                 $cnt = count($plhld_array); $plhld = ''; $fld = ''; $where = ''; $set = '';
                 foreach ($plhld_array as $plhld => $v) {
-                    --$cnt; $fld = 'art_'.ltrim($plhld, ':');
+                    --$cnt;
+                    $fld = 'art_'.ltrim($plhld, ':');
                     if (!$cnt) {
                         $where = $fld.'='.$plhld;
                     } else {
@@ -59,7 +59,6 @@ class NewsModel extends AbstractModel{
                     self::$plaseholders .= (!$cnt) ? $k : ($k.',');
                 }
                 $query = 'INSERT INTO '.self::$table.' ('.self::$fields.') VALUES('.self::$plaseholders.')';
-//                VarDump::dump($plhld_array);VarDump::dump($query);die;
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = $res ? 'новость успешно добавлена' : 'неверные данные';
                 break;
@@ -67,24 +66,36 @@ class NewsModel extends AbstractModel{
 /* показать все новости */
             default:
                 self::$where = self::handlerInputData($plhld_array);
-                VarDump::dump(self::$where);
-                self::$where = '';
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table.self::$where;
-//                VarDump::prnt($query);
                 return self::getAll($query);
         }
     }
-            
-    protected static function handlerInputData($arr) {
+    
+/* обработчик входных данных из Search */
+    protected static function handlerInputData($arr) 
+    {
         $where = '';
-        if (!arr) return $where;
-        else return $arr;
+        if (!$arr) return $where;
+        while (list($key,$val) = each($arr)) {
+            $pos = strpos($where, 'WHERE');
+            switch ($key) {
+                case 'category': 
+                    $where .= ' WHERE art_'.$key.'='.$val; break;
+                case 'from_date':
+                    $where .= ($pos===FALSE) ? (' WHERE art_datetime >= '.self::mkTime($val)) : (' AND art_datetime >= '.self::mkTime($val)); break;
+                case 'by_date':
+                    $where .= ($pos===FALSE) ? (' WHERE art_datetime <= '.  self::mkTime($val)) : (' AND art_datetime <= '.self::mkTime($val)); break;
+                case 'author':
+                    $where .= ($pos===FALSE) ? (' WHERE LOWER(art_'.$key.') LIKE \'%'.strtolower($val).'%\'') : (' AND LOWER(art_'.$key.') LIKE \'%'.strtolower($val).'%\''); break;
+            }
+        }
+        return $where;
     }
 
-
-    private static function mkTime($str) {
-        $arr = explode('-', $str);
-        $d = $arr[0]; $m = $arr[1]; $y = $arr[2];
-        return mktime(0, 0, 0, $m, $d, $y);
+/* преобразование даты в формат UNIX */
+    protected static function mkTime($d) 
+    {
+        $date = explode('-', $d);
+        return mktime(0, 0, 0, $date[1], $date[0], $date[2]);
     }
 }

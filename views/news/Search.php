@@ -11,9 +11,10 @@ class Search {
     }
     
     public function search() {
+        $msgs = (isset($_SESSION['msgs'])) ? '   ::   '.$_SESSION['msgs'] : '';
         echo <<<HTML_ENTITIES
             <div style="margin-top; 10px; padding: 10px;">
-            <p>сортировка</p>
+            <p style="color: #FF8300; text-shadow: 1px 1px 2px  rgba(0,0,0,0.8);">сортировка$msgs</p>
                 <form action="/user/allnews" method="POST">
                     <p>    
                         <select class="slct" name="category">
