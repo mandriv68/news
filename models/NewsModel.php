@@ -66,16 +66,25 @@ class NewsModel extends AbstractModel{
             
 /* показать все новости */
             default:
-                if(!empty($plhld_array)){
-                    list($key,$val) = each($plhld_array);
-                    self::$where = ' WHERE '.$key.'='.$val;
-                }
+                self::$where = self::handlerInputData($plhld_array);
+                VarDump::dump(self::$where);
+                self::$where = '';
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table.self::$where;
+//                VarDump::prnt($query);
                 return self::getAll($query);
         }
     }
-    
-    protected static function handlerWhere($param) {
-        $where = ' WHERE ';
+            
+    protected static function handlerInputData($arr) {
+        $where = '';
+        if (!arr) return $where;
+        else return $arr;
+    }
+
+
+    private static function mkTime($str) {
+        $arr = explode('-', $str);
+        $d = $arr[0]; $m = $arr[1]; $y = $arr[2];
+        return mktime(0, 0, 0, $m, $d, $y);
     }
 }
