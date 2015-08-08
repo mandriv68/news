@@ -27,8 +27,11 @@ HTML_ENTITIES;
                         echo <<<HTML_ENTITIES
                         <select/>
                         <span class="slct">
-                          <input class="slct" type="text" name="from_date" onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"  placeholder="с даты">                       
-                          <input class="slct" type="text" name="by_date" onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"  placeholder="по дату">
+                            <input class="slct" type="text" name="from_date" onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"  placeholder="с даты">                       
+                            <input class="slct" type="text" name="by_date" onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"  placeholder="по дату">
+                        </span>
+                        <span class="slct">
+                            <input class="slct" type="search" name="author" placeholder="имя автора или часть имени">
                         </span>
                         <input class="sbmt" type="submit" value="OK">
                         <input class="sbmt" type="reset" value="Очистить">

@@ -20,6 +20,7 @@
                     "<a href='$href' class='oranged'>  ...читать полностью</a></div></div>";
             }
             echo '</div>';
+            unset($_SESSION['msgs']);
         }
                 
         public function getBody() {

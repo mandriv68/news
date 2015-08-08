@@ -124,11 +124,17 @@ a.oranged:hover{
     border-radius: 3px;
     border: 2px solid rgba(255, 131, 0, 0.6);
 }
+select.slct>option {
+    color: blue;
+}
 input.slct {
     margin-left:5px;
-    width: 70px;
-    color: #E87700;
-    font-weight: 700;
+    width: 65px;
+    font-weight: 400;
+    color: blue;
+}
+input.slct[name="author"] {
+    width: 140px;
 }
 span.slct {
     border: none !important;

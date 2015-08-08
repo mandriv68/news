@@ -34,8 +34,9 @@ class DBconnect {
     public function fetchObj($query,$class='stdclass') {
         $stmt = $this->_pdo->query($query);
         $res = $stmt->fetchObject($class);
-        if (!$res) echo 'нет данных для вывода';
-        else  return $res;
+//        if (!$res) echo 'нет данных для вывода';
+//        else  return $res;
+        return $res;
     }
     
     public function execute($query,$pl_holders_array) {

@@ -12,9 +12,9 @@ class UserController implements IController{
 
     public function AllnewsAction()
     {
-        unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD']=='POST'){
             $this->handlerPOST();
+//            VarDump::dump($this->_where);die;
         }
         $search = [];
         $search['categories'] = CategoryModel::Factory('getAll');
@@ -29,27 +29,19 @@ class UserController implements IController{
     
     public function OnenewsAction() 
     {
-        unset($_SESSION['msgs']);
         $this->_where['art_id'] = abs((int)$this->_fc->getParams()['id']);
         $item = NewsModel::Factory('getNews', $this->_where);
         if (!$item) {
             $_SESSION['msgs'] = 'по Вашему запросу ничего не найдено';
-            $items = NewsModel::Factory('getAll', $this->_where = NULL);
-            $all = new ViewAllNews($search, $items);
+            $this->AllnewsAction();
         } else {
         $one = new ViewOneNews($item);
         $one->getBody();
         }
     }
-    
-    protected function handlerPOST() {
-        foreach ($_POST as $k => $v) {
-            if ($v)
-                $this->_where[$k] = $v;
-        }
-    }
-    
-    private function handlerPOST() {
+        
+    private function handlerPOST() 
+    {
         foreach ($_POST as $k => $v) {
             if ($v){
                 $this->_where[$k] = $v;
