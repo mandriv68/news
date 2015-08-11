@@ -12,32 +12,40 @@ class ViewAdmSave extends AbstractView {
         $this->_model = $model;
     }
     
-    protected function getMenu() {
-        echo <<<HTML_ENTITIES
-        <div id="admin_menu"> 
-                <div style="display:inline-block; font-size:1.4em; margin-top:10px"><strong>АДмиНКа Василевса П.</strong></div>
-                <div id="button" style="float:right; display:inline-block; margin-top:5px;">
-                    <a href="/admin/add/show/$this->_model">добавить ещё</a>
-                </div>
-                <div id="button" style="float:right; display:inline-block; margin-right:20px;  margin-top:5px;">
-                    <a href="/admin/main/show/$this->_model">назад</a>
-                </div>        
-        </div>
-HTML_ENTITIES;
+    protected function getLeftBarAdm() {
+        parent::getLeftBarAdm();
+        $this->_style = 'margin-left:200px;border-left:2px solid rgba(255, 131, 0,0.2)';
     }
     
     protected function getContent() {
         $datetime = time();
         $method_name = 'getForm'.ucfirst($this->_model);
-        echo '<div id="content">';
-        $this->getMenu();
+        echo <<<HTML_ENTITIES
+        <div id="content" style="$this->_style">
+            <div style="height:31px;margin-top:10px;">
+                <div class="msgs" style="width:60%;">:: 
+HTML_ENTITIES;
+            if (!empty($_SESSION['msgs'])){
+                echo $_SESSION['msgs'];
+            }
+            echo <<<HTML_ENTITIES
+              ::</div>
+                <div id="button">
+                    <a href="/admin/add/show/$this->_model">добавить ещё</a>
+                </div>
+                <div id="button" style="margin-left:10px;">
+                    <a href="/admin/main/show/$this->_model">назад</a>
+                </div> 
+
+            </div>
+HTML_ENTITIES;
         $this->{$method_name}($datetime, $this->_categories, $this->_item);
         echo '</div>';
     }
     
     public function getBody() {
         $this->getHeader();
-//        $this->getMenu();
+        $this->getLeftBarAdm();
         $this->getContent();
         $this->getFuter();
     }

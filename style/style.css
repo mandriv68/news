@@ -61,6 +61,14 @@ li {
     text-decoration: none;
     
 }
+.msgs {
+    text-align:center;
+    color:#FF8300;
+    font-weight:700;
+    height: 28px;
+    display:inline-block;
+    float:left;
+}
 /* обёртка для leftbar & content */
 #wrapper {
     margin: 20px auto;

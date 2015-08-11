@@ -31,7 +31,7 @@ class AdminController implements IController{
         unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) {
-                $this->save('addNews',$model);
+                $this->save('add',$model);
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
                 goto view_adm_add;
@@ -45,49 +45,73 @@ class AdminController implements IController{
         }
     }
         
-    public function EditnewsAction()
+    public function 
+            EditAction()
     {
+        $model = $this->_fc->getParams()['show'];
         unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) {
-                $this->save('editNews');
+                $this->save('edit',$model);
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
                 goto view_adm_edit;
             }
         } else {
             view_adm_edit:     // метка перехода
-            $categories = CategoryModel::Factory('getAll');
-            $arr_placeholders['art_id'] = abs((int)$this->_fc->getParams()['id']);
-            $news = $_POST ? (object)$_POST : NewsModel::Factory('getNews',$arr_placeholders);
-            $view = new ViewAdmSave($categories,$news);
+            $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
+            $item = $_POST ? (object)$_POST : $this->get($model);
+            $view = new ViewAdmSave($item,$categories,$model);
             $view->getBody();
         }
     }
     
-    public function DelitenewsAction()
+    public function 
+            DeleteAction()
     {
+        $model = $this->_fc->getParams()['show'];
+        $model_name = (ucfirst($model).'Model');
+        $method_name = 'delete'.ucfirst($model);
         if (array_key_exists('id', $this->_fc->getParams())){
             $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
-            NewsModel::Factory('deleteNews',$arr_placeholders);
-            header("Location:/admin/main");
+            $model_name::Factory($method_name,$arr_placeholders);
+            header("Location:/admin/main/show/$model");
         } else {
             echo 'неверные данные для обработки'; die;
         }
     }
     
     /* сохранение данных из формы */
-    public function save($method_name,$model)
+    private function 
+            save($method,$model)
     {
+        $method_name = $method.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
         $arr_placeholders = $this->handlerAddForm();
-        VarDump::dump($arr_placeholders);die;
         $model_name::Factory($method_name,$arr_placeholders);
         header("Location:/admin/main/show/$model");
     }
     
+    protected function 
+            get($model) 
+    {
+        $method_name = 'get'.ucfirst($model);
+        $model_name = (ucfirst($model).'Model');
+        switch ($model) {
+            case 'news':
+                $arr_plhld['art_id'] = abs((int)$this->_fc->getParams()['id']);
+                break;
+            case 'category':
+                $arr_plhld['cat_id'] = abs((int)$this->_fc->getParams()['id']);
+                break;
+        }
+        return $model_name::Factory($method_name,$arr_plhld);
+    }
+
+
     /* обработчик формы */
-    public function handlerAddForm()
+    public function 
+            handlerAddForm()
     {
         $place_array = [];
         foreach ($_POST as $key => $value) {

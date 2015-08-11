@@ -5,7 +5,6 @@ class NewsModel extends AbstractModel{
     protected static $table = 'articles';
     protected static $fields = 'art_id AS id,art_title AS title,art_description AS description,art_text AS text,art_author AS author,art_datetime AS datetime,art_category AS category';
     protected static $placeholders = '';
-    protected static $where = '';
 
     public static function Factory($method_name, $plhld_array) 
     {

@@ -5,6 +5,7 @@ class AbstractModel {
     protected static $fields;
     protected static $class;
     protected static $plaseholders;
+    protected static $where;
     
     public static function getClass() {
         return static::$class = get_called_class();
