@@ -31,9 +31,9 @@ HTML;
                 АДМИНКА<br>ПУПКИНА
             </div>
             <ul>
-                <li><a href="/admin/main">Новости</a></li>
-                <li><a href="/admin/category">Категории</a></li>
-                <li><a href="/admin/users">Пользователи</a></li>
+                <li><a href="/admin/main/show/news">Новости</a></li>
+                <li><a href="/admin/main/show/category">Категории</a></li>
+                <li><a href="/admin/main/show/users">Пользователи</a></li>
             </ul>
         </div>
 HTML_ENTITIES;
@@ -56,7 +56,7 @@ HTML;
     
     protected function getBody() {}
     
-    protected function getForm($datetime,$categories,$news = NULL) {
+    protected function getFormNews($datetime,$categories,$news = NULL) {
         echo <<<HTML_ENTITIES
     <form action="" method="POST">
         <p>Название новости<br/>
@@ -82,6 +82,29 @@ HTML_ENTITIES;
         echo <<<HTML_ENTITIES
         <select/>
         <input name="id" type="hidden" value={$news->id}>
+        <p>
+            <input type="submit" value="Сохранить"/>
+        </p>
+    </form>
+HTML_ENTITIES;
+    }
+    
+    protected function getFormCategory($datetime,$categories,$category = NULL) 
+    {
+        echo <<<HTML_ENTITIES
+    <form action="" method="POST">
+        <p>Название категории<br/>
+           <input name="title" type="text" style="width:420px" value="{$category->title}"/> 
+        </p>
+        <p>Описание категории<br/>
+           <textarea name="description" cols="50" rows="4">{$category->description}</textarea>
+        </p>
+           
+        <input name="text" type="hidden" value="hidden"/>
+        <input name="author" type="hidden" value="hidden"/>
+        <input name="datetime" type="hidden" value="hidden"/>
+        <input name="id" type="hidden" value={$category->id}>
+        
         <p>
             <input type="submit" value="Сохранить"/>
         </p>

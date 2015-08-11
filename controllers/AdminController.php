@@ -11,27 +11,36 @@ class AdminController implements IController{
     
     public function MainAction()
     {
-        $items = NewsModel::Factory('Main',NULL);
-        $view = new ViewAdmMain($items);
+        $model = $this->_fc->getParams()['show'];
+        if (!$model) $model = 'news';
+        $model_name = (ucfirst($model).'Model');
+        $items = $model_name::Factory('Main',NULL);
+//        switch ($model) {
+//            case 'category':$this->_marker = 'category'; break;
+//            case 'user' :   $this->_marker = 'user'; break;
+//            default:        $this->_marker = 'news'; break;
+//        }
+        $view = new ViewAdmMain($items,$model);
         $view->getBody();
         unset($_SESSION['res']);
     }
     
-    public function AddnewsAction()
+    public function AddAction()
     {
+        $model = $this->_fc->getParams()['show'];
         unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) {
-                $this->save('addNews');
+                $this->save('addNews',$model);
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
                 goto view_adm_add;
             }
         } else {
             view_adm_add:     // метка перехода
-            $categories = CategoryModel::Factory('getAll');
-            $news = $_POST ? (object)$_POST : NULL;
-            $view = new ViewAdmSave($categories,$news);
+            $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
+            $item = $_POST ? (object)$_POST : NULL;
+            $view = new ViewAdmSave($item,$categories,$model);
             $view->getBody();
         }
     }
@@ -68,11 +77,13 @@ class AdminController implements IController{
     }
     
     /* сохранение данных из формы */
-    public function save($method_name)
+    public function save($method_name,$model)
     {
+        $model_name = (ucfirst($model).'Model');
         $arr_placeholders = $this->handlerAddForm();
-        NewsModel::Factory($method_name,$arr_placeholders);
-        header("Location:/admin/main");
+        VarDump::dump($arr_placeholders);die;
+        $model_name::Factory($method_name,$arr_placeholders);
+        header("Location:/admin/main/show/$model");
     }
     
     /* обработчик формы */
@@ -80,7 +91,8 @@ class AdminController implements IController{
     {
         $place_array = [];
         foreach ($_POST as $key => $value) {
-                $place_array[':'.$key] = $value;
+            if ($value == 'hidden') continue;
+            else $place_array[':'.$key] = $value;
         }
         return $place_array;
     }

@@ -2,11 +2,14 @@
 
 class ViewAdmSave extends AbstractView {
     private $_categories = [];
-    private $_news = [];
-    
-    public function __construct($categories,$news) {
+    private $_item = [];
+    private $_model = '';
+
+
+    public function __construct($item,$categories,$model) {
+        $this->_item = $item; 
         $this->_categories = $categories;
-        $this->_news = $news; 
+        $this->_model = $model;
     }
     
     protected function getMenu() {
@@ -14,10 +17,10 @@ class ViewAdmSave extends AbstractView {
         <div id="admin_menu"> 
                 <div style="display:inline-block; font-size:1.4em; margin-top:10px"><strong>АДмиНКа Василевса П.</strong></div>
                 <div id="button" style="float:right; display:inline-block; margin-top:5px;">
-                    <a href="/admin/addnews">добавить новость</a>
+                    <a href="/admin/add/show/$this->_model">добавить ещё</a>
                 </div>
                 <div id="button" style="float:right; display:inline-block; margin-right:20px;  margin-top:5px;">
-                    <a href="/admin/main">назад на главную</a>
+                    <a href="/admin/main/show/$this->_model">назад</a>
                 </div>        
         </div>
 HTML_ENTITIES;
@@ -25,11 +28,10 @@ HTML_ENTITIES;
     
     protected function getContent() {
         $datetime = time();
-//        if (isset($_SESSION['msgs']))
-//            echo '<p>'.$_SESSION['msgs'].'</p>';
+        $method_name = 'getForm'.ucfirst($this->_model);
         echo '<div id="content">';
         $this->getMenu();
-        $this->getForm($datetime, $this->_categories, $this->_news);
+        $this->{$method_name}($datetime, $this->_categories, $this->_item);
         echo '</div>';
     }
     

@@ -3,9 +3,9 @@
 class CategoryModel extends AbstractModel{
     protected static $table = 'categories';
     
-    protected static $fields = 'cat_id AS id,cat_title AS title';
+    protected static $fields = 'cat_id AS id,cat_title AS title,cat_description as description';
     
-    protected static $plaseholders = ':id,:title';
+    protected static $plaseholders = ':id,:title,:description';
     
     public static function Factory($method_name, $pl_holders_array=NULL) {
         switch ($method_name) {

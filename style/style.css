@@ -109,6 +109,11 @@ div#leftbar>ul>li a:visited{
     background-color: #b2b2b2;
     margin-bottom: 15px;
 }
+.item_box {
+    border:1px solid rgba(255, 131, 0,0.2);
+    padding:0px 10px;
+    margin:10px auto;
+}
 
 /* кнопка "читать полностью" ** кнопка ""назад */
 .oranged {
