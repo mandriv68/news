@@ -11,6 +11,9 @@ body {
 h3 {
    text-shadow: 1px 1px 2px  rgba(0,0,0,0.6);
 }
+li {
+    list-style-type: none;
+}
 #header {
     height: 120px;
     font-size: 20px;
@@ -37,8 +40,8 @@ h3 {
     margin: 5px auto;
     padding-left: 20px;
     padding-right: 20px;
-    height: 50px;
-    vertical-align: top;
+    height: 40px;
+    /*vertical-align: middle;*/
     background-image: linear-gradient(to top, #EFE7DE, #D7CDC3, #EFE7DE);
     border: 1px solid grey;
     
@@ -69,7 +72,23 @@ h3 {
     width: 200px;
     float: left;
     padding: 10px;
-    
+}
+div#leftbar>ul>li a{
+    display: block;
+    padding: 4px 0px 4px 6px;
+    border-left: 3px solid rgba(0,0,0,0);
+    text-decoration: none;
+    color: #FF8300;
+    font-weight: 700;
+}
+div#leftbar>ul>li a:hover{
+    border-left: 3px solid #E87700;
+    padding: 4px 0px 4px 10px;
+    color: #E87700;
+}
+div#leftbar>ul>li a:visited{
+    padding: 4px 0px 4px 6px;
+    color: #E87700;
 }
 /* контент */
 #content {

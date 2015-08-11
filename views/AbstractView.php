@@ -23,7 +23,21 @@ HTML;
     
     protected function getMenu() {}
     
-    protected function getLeftBar() {}
+    
+    protected function getLeftBarAdm() {
+        echo <<<HTML_ENTITIES
+        <div id="leftbar">
+            <div style="text-align:center; font-weight:700; color:#ff8300;">
+                АДМИНКА<br>ПУПКИНА
+            </div>
+            <ul>
+                <li><a href="/admin/main">Новости</a></li>
+                <li><a href="/admin/category">Категории</a></li>
+                <li><a href="/admin/users">Пользователи</a></li>
+            </ul>
+        </div>
+HTML_ENTITIES;
+    }
     
     protected function getSearch() {}
     

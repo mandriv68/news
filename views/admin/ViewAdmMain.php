@@ -9,28 +9,8 @@ class ViewAdmMain extends AbstractView{
         $this->_items = $items;
     }
     
-    protected function getMenu() {
-        echo <<<HTML_ENTITIES
-        <div id="admin_menu"> 
-                <div style="display:inline-block; font-size:1.4em; margin-top:10px"><strong>АДмиНКа Василевса П.</strong></div>
-                <div id="button" style="float:right; display:inline-block;">
-                    <a href="/admin/addnews">добавить новость</a>
-                </div>    
-        </div>
-HTML_ENTITIES;
-    }
-    
-    protected function getLeftBar() {
-        echo <<<HTML_ENTITIES
-        <div id="leftbar">
-            <ul>
-                <li>leftbar1</li>
-                <li>leftbar2</li>
-                <li>leftbar3</li>
-                <li>leftbar4</li>
-            </ul>
-        </div>
-HTML_ENTITIES;
+    protected function getLeftBarAdm() {
+        parent::getLeftBarAdm();
         $this->_style = 'margin-left:200px;border-left:2px solid rgba(255, 131, 0,0.2)';
     }
     
@@ -75,7 +55,7 @@ HTML_ENTITIES;
     
     public function getBody() {
         $this->getHeader();
-        $this->getLeftBar();
+        $this->getLeftBarAdm();
         $this->getContent();
         $this->getFuter();
     }
