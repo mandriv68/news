@@ -9,12 +9,15 @@ class AdminController implements IController{
         $this->_fc = FrontController::getInstance();
     }
     
-    public function MainAction()
+/* показать все новости, катгории на главной */ 
+    public function 
+            MainAction()
     {
         $model = $this->_fc->getParams()['show'];
         if (!$model) $model = 'news';
         $model_name = (ucfirst($model).'Model');
         $items = $model_name::Factory('Main',NULL);
+        if (!$items) { $_SESSION['res'] = 'нет данных для показа'; }
 //        switch ($model) {
 //            case 'category':$this->_marker = 'category'; break;
 //            case 'user' :   $this->_marker = 'user'; break;
@@ -25,12 +28,16 @@ class AdminController implements IController{
         unset($_SESSION['res']);
     }
     
-    public function AddAction()
+/* добавление новости, катгории */     
+    public function 
+            AddAction()
     {
         $model = $this->_fc->getParams()['show'];
         unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) {
+            if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
+                    XOR 
+                (!empty($_POST['login'])&&!empty($_POST['salt'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
                 $this->save('add',$model);
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
@@ -44,7 +51,8 @@ class AdminController implements IController{
             $view->getBody();
         }
     }
-        
+    
+/* редактирование новости, катгории */        
     public function 
             EditAction()
     {
@@ -66,6 +74,7 @@ class AdminController implements IController{
         }
     }
     
+/* удаление новости, катгории */     
     public function 
             DeleteAction()
     {
@@ -81,7 +90,7 @@ class AdminController implements IController{
         }
     }
     
-    /* сохранение данных из формы */
+/* сохранение данных из формы */
     private function 
             save($method,$model)
     {
@@ -92,24 +101,18 @@ class AdminController implements IController{
         header("Location:/admin/main/show/$model");
     }
     
-    protected function 
+/* заполнить форму для редактирования данными из БД новости, катгории */     
+    private function 
             get($model) 
     {
         $method_name = 'get'.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
-        switch ($model) {
-            case 'news':
-                $arr_plhld['art_id'] = abs((int)$this->_fc->getParams()['id']);
-                break;
-            case 'category':
-                $arr_plhld['cat_id'] = abs((int)$this->_fc->getParams()['id']);
-                break;
-        }
+        $arr_plhld['id'] = abs((int)$this->_fc->getParams()['id']);
         return $model_name::Factory($method_name,$arr_plhld);
     }
 
 
-    /* обработчик формы */
+/* обработчик формы */
     public function 
             handlerAddForm()
     {

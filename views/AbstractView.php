@@ -33,7 +33,7 @@ HTML;
             <ul>
                 <li><a href="/admin/main/show/news">Новости</a></li>
                 <li><a href="/admin/main/show/category">Категории</a></li>
-                <li><a href="/admin/main/show/users">Пользователи</a></li>
+                <li><a href="/admin/main/show/user">Пользователи</a></li>
             </ul>
         </div>
 HTML_ENTITIES;
@@ -105,6 +105,28 @@ HTML_ENTITIES;
         <input name="datetime" type="hidden" value="hidden"/>
         <input name="id" type="hidden" value={$category->id}>
         
+        <p>
+            <input type="submit" value="Сохранить"/>
+        </p>
+    </form>
+HTML_ENTITIES;
+    }
+    
+    protected function getFormUser($user = NULL) {
+        echo <<<HTML_ENTITIES
+    <form action="" method="POST">
+        <p>логин<br/>
+           <input name="login" type="text" style="width:420px" value="{$user->login}"/> 
+        </p>
+        <p>соль<br/>
+           <input name="salt" type="text" style="width:420px" value="{$user->salt}"/>
+        </p>
+        <p>пароль,если<br/>
+           <input name="salt" type="text" style="width:420px" value="{$user->pass}"/>
+        </p>   
+        <p>роль<br/>
+           <input name="role" type="text" style="width:420px" value="{$user->role}"/>
+        </p> 
         <p>
             <input type="submit" value="Сохранить"/>
         </p>

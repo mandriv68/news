@@ -3,7 +3,7 @@
 class CategoryModel extends AbstractModel{
     protected static $table = 'categories';
     
-    protected static $fields = 'cat_id AS id,cat_title AS title,cat_description as description';
+    protected static $fields = 'id,title,description';
     
     protected static $plaseholders = ':id,:title,:description';
     
@@ -19,7 +19,7 @@ class CategoryModel extends AbstractModel{
                 self::$plaseholders = '';
                 $cnt = count($plhld_array);
                 foreach ($plhld_array as $k => $v) {
-                    --$cnt; $f = 'cat_'.ltrim($k, ':');
+                    --$cnt; $f = ltrim($k, ':');
                     self::$fields .= (!$cnt) ? $f : ($f.',');             
                     self::$plaseholders .= (!$cnt) ? $k : ($k.',');
                 }
@@ -43,7 +43,7 @@ class CategoryModel extends AbstractModel{
                 $cnt = count($plhld_array); $plhld = ''; $fld = ''; $where = ''; $set = '';
                 foreach ($plhld_array as $plhld => $v) {
                     --$cnt;
-                    $fld = 'cat_'.ltrim($plhld, ':');
+                    $fld = ltrim($plhld, ':');
                     if (!$cnt) {
                         $where = $fld.'='.$plhld;
                     } else {
@@ -59,7 +59,7 @@ class CategoryModel extends AbstractModel{
             case 'deleteCategory':
                 if(!empty($plhld_array)){
                     list($key,$val) = each($plhld_array);
-                    self::$where = ' WHERE cat_id='.$key;
+                    self::$where = ' WHERE id='.$key;
                 }
                 $query = 'DELETE FROM '.self::$table.self::$where;
                 $res = self::saveANDdelete($query, $plhld_array);

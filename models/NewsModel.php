@@ -3,19 +3,20 @@
 class NewsModel extends AbstractModel{
     
     protected static $table = 'articles';
-    protected static $fields = 'art_id AS id,art_title AS title,art_description AS description,art_text AS text,art_author AS author,art_datetime AS datetime,art_category AS category';
+    protected static $fields = 'id,title,description,text,author,datetime,category';
     protected static $placeholders = '';
 
     public static function Factory($method_name, $plhld_array) 
     {
         switch ($method_name) {
+            
 /* выборка одной новости */
             case 'getNews':
                 self::$table .= ',categories';
-                self::$fields .= ',cat_title AS cat';
+                self::$fields .= ',categories.title AS cat';
                 list($key,$val) = each($plhld_array);
                 self::$where = ' WHERE '.$key.'='.$val;
-                self::$where .= ' AND categories.cat_id=articles.art_category';
+                self::$where .= ' AND categories.id=articles.category';
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table.self::$where;
                 return self::getOne($query);
             
@@ -23,7 +24,7 @@ class NewsModel extends AbstractModel{
             case 'deleteNews':
                 if(!empty($plhld_array)){
                     list($key,$val) = each($plhld_array);
-                    self::$where = ' WHERE art_id='.$key;
+                    self::$where = ' WHERE id='.$key;
                 }
                 $query = 'DELETE FROM '.self::$table.self::$where;
                 $res = self::saveANDdelete($query, $plhld_array);
@@ -35,7 +36,7 @@ class NewsModel extends AbstractModel{
                 $cnt = count($plhld_array); $plhld = ''; $fld = ''; $where = ''; $set = '';
                 foreach ($plhld_array as $plhld => $v) {
                     --$cnt;
-                    $fld = 'art_'.ltrim($plhld, ':');
+                    $fld = ltrim($plhld, ':');
                     if (!$cnt) {
                         $where = $fld.'='.$plhld;
                     } else {
@@ -53,7 +54,7 @@ class NewsModel extends AbstractModel{
                 self::$fields = '';
                 $cnt = count($plhld_array);
                 foreach ($plhld_array as $k => $v) {
-                    --$cnt; $f = 'art_'.ltrim($k, ':');
+                    --$cnt; $f = ltrim($k, ':');
                     self::$fields .= (!$cnt) ? $f : ($f.',');             
                     self::$plaseholders .= (!$cnt) ? $k : ($k.',');
                 }
@@ -79,13 +80,13 @@ class NewsModel extends AbstractModel{
             $pos = strpos($where, 'WHERE');
             switch ($key) {
                 case 'category': 
-                    $where .= ' WHERE art_'.$key.'='.$val; break;
+                    $where .= ' WHERE '.$key.'='.$val; break;
                 case 'from_date':
-                    $where .= ($pos===FALSE) ? (' WHERE art_datetime >= '.self::mkTime($val)) : (' AND art_datetime >= '.self::mkTime($val)); break;
+                    $where .= ($pos===FALSE) ? (' WHERE datetime >= '.self::mkTime($val)) : (' AND datetime >= '.self::mkTime($val)); break;
                 case 'by_date':
-                    $where .= ($pos===FALSE) ? (' WHERE art_datetime <= '.  self::mkTime($val)) : (' AND art_datetime <= '.self::mkTime($val)); break;
+                    $where .= ($pos===FALSE) ? (' WHERE datetime <= '.  self::mkTime($val)) : (' AND datetime <= '.self::mkTime($val)); break;
                 case 'author':
-                    $where .= ($pos===FALSE) ? (' WHERE LOWER(art_'.$key.') LIKE \'%'.strtolower($val).'%\'') : (' AND LOWER(art_'.$key.') LIKE \'%'.strtolower($val).'%\''); break;
+                    $where .= ($pos===FALSE) ? (' WHERE LOWER('.$key.') LIKE \'%'.strtolower($val).'%\'') : (' AND LOWER('.$key.') LIKE \'%'.strtolower($val).'%\''); break;
             }
         }
         return $where;
