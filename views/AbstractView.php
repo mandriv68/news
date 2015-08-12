@@ -116,17 +116,21 @@ HTML_ENTITIES;
         echo <<<HTML_ENTITIES
     <form action="" method="POST">
         <p>логин<br/>
-           <input name="login" type="text" style="width:420px" value="{$user->login}"/> 
+           <input name="login" type="text" style="width:220px" value="{$user->login}"/> 
         </p>
-        <p>соль<br/>
-           <input name="salt" type="text" style="width:420px" value="{$user->salt}"/>
+        <p>
+           соль&nbsp&nbsp&nbsp
+            <input name="salt" type="text" style="width:320px" value="{$user->salt}"/>&nbsp&nbsp&nbsp
+            к-во итераций&nbsp&nbsp&nbsp
+            <input name="iteration" type="text" style="width:50px" value="{$user->iteration}"/>
         </p>
-        <p>пароль,если<br/>
-           <input name="salt" type="text" style="width:420px" value="{$user->pass}"/>
+        <p>пароль<br/>
+           <input name="pass" type="text" style="width:220px" value="{$user->pass}"/>
         </p>   
         <p>роль<br/>
-           <input name="role" type="text" style="width:420px" value="{$user->role}"/>
+           <input name="role" type="text" style="width:220px" value="{$user->role}"/>
         </p> 
+        <input name="id" type="hidden" value="{$user->login}"/>   
         <p>
             <input type="submit" value="Сохранить"/>
         </p>

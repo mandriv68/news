@@ -37,7 +37,7 @@ class AdminController implements IController{
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
                     XOR 
-                (!empty($_POST['login'])&&!empty($_POST['salt'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
+                (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
                 $this->save('add',$model);
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
@@ -59,7 +59,9 @@ class AdminController implements IController{
         $model = $this->_fc->getParams()['show'];
         unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) {
+            if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
+                    XOR 
+                (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
                 $this->save('edit',$model);
             } else {
                 $_SESSION['msgs'] = 'заполните все поля формы';
@@ -96,7 +98,9 @@ class AdminController implements IController{
     {
         $method_name = $method.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
-        $arr_placeholders = $this->handlerAddForm();
+        $arr_placeholders = ($model!='user') ? 
+                $this->handlerAddForm() : $this->handlerUserForm();
+        VarDump::dump($arr_placeholders); die;
         $model_name::Factory($method_name,$arr_placeholders);
         header("Location:/admin/main/show/$model");
     }
@@ -113,7 +117,7 @@ class AdminController implements IController{
 
 
 /* обработчик формы */
-    public function 
+    private function 
             handlerAddForm()
     {
         $place_array = [];
@@ -121,6 +125,14 @@ class AdminController implements IController{
             if ($value == 'hidden') continue;
             else $place_array[':'.$key] = $value;
         }
+        return $place_array;
+    }
+    
+    private function 
+            handlerUserForm() 
+    {
+        $arr = new HandlerUserForm($_POST);
+        $place_array = $arr->getPlaceholdersArr();
         return $place_array;
     }
     

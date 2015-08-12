@@ -4,9 +4,9 @@ class UserModel extends AbstractModel{
     
     protected static $table = 'users';
     
-    protected static $fields = 'login,salt,pass,role';
+    protected static $fields = 'login,salt,iteration,pass,role';
     
-    protected static $plaseholders = ':login,:salt,:pass,:role';
+    protected static $plaseholders = ':login,:salt,:iteration,:pass,:role';
     
     public static function 
             Factory($method_name, $plhld_array=NULL) 
