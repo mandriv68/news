@@ -41,6 +41,7 @@ HTML_ENTITIES;
 HTML_ENTITIES;
         $this->{$method_name}($datetime, $this->_categories, $this->_item);
         echo '</div>';
+        unset($_SESSION['msgs']);
     }
     
     public function getBody() {

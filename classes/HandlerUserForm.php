@@ -54,11 +54,10 @@ class HandlerUserForm {
                     $place_array[':'.$key] = $this->getPass();
                     break;
                 case 'role':
-                    $place_array[':'.$key] = $val;
+                    $place_array[':'.$key] = $value;
                     break;
             }
         }
-        $place_array[':id'] = str_rot13($this->_user['login']);
         return $place_array;
     }
 }

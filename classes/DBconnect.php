@@ -49,7 +49,7 @@ class DBconnect {
         else return $res;
     }
     public function query($query) {
-        return $this->_pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->_pdo->query($query)->fetch();
     }
     
 }

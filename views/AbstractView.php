@@ -112,7 +112,7 @@ HTML_ENTITIES;
 HTML_ENTITIES;
     }
     
-    protected function getFormUser($user = NULL) {
+    protected function getFormUser($d , $c, $user = NULL) {
         echo <<<HTML_ENTITIES
     <form action="" method="POST">
         <p>логин<br/>
@@ -129,8 +129,7 @@ HTML_ENTITIES;
         </p>   
         <p>роль<br/>
            <input name="role" type="text" style="width:220px" value="{$user->role}"/>
-        </p> 
-        <input name="id" type="hidden" value="{$user->login}"/>   
+        </p>
         <p>
             <input type="submit" value="Сохранить"/>
         </p>

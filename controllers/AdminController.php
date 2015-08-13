@@ -33,7 +33,7 @@ class AdminController implements IController{
             AddAction()
     {
         $model = $this->_fc->getParams()['show'];
-        unset($_SESSION['msgs']);
+//        unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
                     XOR 
@@ -57,7 +57,7 @@ class AdminController implements IController{
             EditAction()
     {
         $model = $this->_fc->getParams()['show'];
-        unset($_SESSION['msgs']);
+//        unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
                     XOR 
@@ -84,7 +84,10 @@ class AdminController implements IController{
         $model_name = (ucfirst($model).'Model');
         $method_name = 'delete'.ucfirst($model);
         if (array_key_exists('id', $this->_fc->getParams())){
-            $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
+            if ($model != 'user') 
+                $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
+            else 
+                $arr_placeholders[':login'] = $this->_fc->getParams()['id'];
             $model_name::Factory($method_name,$arr_placeholders);
             header("Location:/admin/main/show/$model");
         } else {
@@ -98,11 +101,14 @@ class AdminController implements IController{
     {
         $method_name = $method.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
-        $arr_placeholders = ($model!='user') ? 
+        $arr_placeholders = ($model != 'user') ? 
                 $this->handlerAddForm() : $this->handlerUserForm();
-        VarDump::dump($arr_placeholders); die;
-        $model_name::Factory($method_name,$arr_placeholders);
-        header("Location:/admin/main/show/$model");
+        $res = $model_name::Factory($method_name,$arr_placeholders);
+//        VarDump::dump($res);die;
+        if ($res)
+            header("Location:/admin/main/show/$model");
+        else 
+            header("Location:/admin/add/show/$model");
     }
     
 /* заполнить форму для редактирования данными из БД новости, катгории */     
@@ -111,7 +117,7 @@ class AdminController implements IController{
     {
         $method_name = 'get'.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
-        $arr_plhld['id'] = abs((int)$this->_fc->getParams()['id']);
+        $arr_plhld['id'] = ($model != 'user') ? abs((int)$this->_fc->getParams()['id']) : $this->_fc->getParams()['id'];
         return $model_name::Factory($method_name,$arr_plhld);
     }
 

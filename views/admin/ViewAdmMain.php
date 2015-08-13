@@ -94,8 +94,10 @@ HTML_ENTITIES;
                 $href_del = '/admin/delete/show/'.$this->_method.'/id/'.$user->login;
                 echo <<<HTML_ENTITIES
             <div class="item_box">
-                <h3 style="margin-bottom:-10px;">$user->login</h3>
-                <p style="margin-bottom:-10px;font-weight:700;font-size:1.2em;">$user->role<span stile="color:#FF8300;font-weight:bold;">&nbsp&nbsp...</span></p>
+                <p>логин &nbsp&nbsp&nbsp 
+                    <h3 style="margin-bottom:-10px;">$user->login</h3>
+                </p>
+                <p style="margin-bottom:-10px;font-weight:700;font-size:1.2em;"><span stile="color:#FF8300;font-weight:300;font-size:0.8em !important;">привилегии&nbsp&nbsp</span>$user->role</p>
                 <p style="text-align:right;color:#FF8300;line-height:80%;">
                     <a href="$href_edit" class="oranged">редактировать</a>
                     <span>&nbsp&nbsp::&nbsp&nbsp</span>
