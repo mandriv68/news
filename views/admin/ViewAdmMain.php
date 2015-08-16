@@ -5,11 +5,13 @@ class ViewAdmMain extends AbstractView{
     private $_items = [];
     private $_style = '';
     private $_method = '';
+    private $_msgs = '';
 
 
-    public function __construct($items,$method) {
+    public function __construct($items=NULL, $method=NULL, $msgs=NULL) {
         $this->_items = $items;
         $this->_method = $method;
+        $this->_msgs = $msgs;
     }
     
     protected function getLeftBarAdm() {
@@ -104,6 +106,28 @@ HTML_ENTITIES;
                     <a href="$href_del" class="oranged">удалить</a>
                 </p>
             </div>
+HTML_ENTITIES;
+        }
+    }
+    
+    public function logInForm() {
+        if (!$this->_msgs) return FALSE;
+        else {
+            echo <<<HTML_ENTITIES
+<div style="position:absolute; z-index: 1000; top:150px; left:450px; height:200px; width:350px; padding:20px; background-color: rgba(255,255,255,0.8);">
+    <form action="" method="POST">
+        <p> $this->_msgs </p>
+        <p>логин<br/>
+           <input name="login" type="text" style="width:220px" value=""/> 
+        </p>
+        <p>пароль<br/>
+           <input name="pass" type="text" style="width:220px" value=""/>
+        </p>
+        <p>
+            <input type="submit" value="Войти"/>
+        </p>
+        </form>
+</div>
 HTML_ENTITIES;
         }
     }

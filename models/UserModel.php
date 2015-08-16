@@ -22,9 +22,7 @@ class UserModel extends AbstractModel{
                     self::$fields .= $f.',';             
                     self::$plaseholders .= $k.',';
                 }
-                $query = 'SELECT * FROM '.self::$table.' WHERE login=\''.$plhld_array[':login'].'\' LIMIT 1';
-                $result = DBconnect::getInstance()->query($query);
-                if (!$result) {
+                if (FALSE == self::existsUser($plhld_array[':login'])) {
                     $query = 'INSERT INTO '.self::$table.
                         ' ('. rtrim(self::$fields, ',') .') '
                         . 'VALUES('. rtrim(self::$plaseholders, ',') .')';
@@ -76,5 +74,10 @@ class UserModel extends AbstractModel{
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table;
                 return self::getAll($query);
         }
+    }
+    
+    public static function existsUser($login) {
+        $query = 'SELECT * FROM '.self::$table.' WHERE login=\''.$login.'\' LIMIT 1';
+        return DBconnect::getInstance()->query($query);
     }
 }

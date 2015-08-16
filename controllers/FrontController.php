@@ -16,7 +16,6 @@ class FrontController {
     public function __construct() {
         $request = $_SERVER['REQUEST_URI'];
         $str = explode('/', trim($request,'/'));
-//        VarDump::dump($str);
         $this->_controller = !empty($str[0]) ? ucfirst($str[0]).'Controller' : 'UserController';
         $this->_action = !empty($str[1]) ? ucfirst($str[1]).'Action' : 'AllnewsAction';
         if(!empty($str[2])){

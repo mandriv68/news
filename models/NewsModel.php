@@ -62,6 +62,7 @@ class NewsModel extends AbstractModel{
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = $res ? 'новость успешно добавлена' : 'неверные данные';
                 break;
+                
             
 /* показать все новости */
             default:

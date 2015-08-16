@@ -7,6 +7,7 @@ class AdminController implements IController{
     public function __construct() 
     {
         $this->_fc = FrontController::getInstance();
+        Secure::logIn();
     }
     
 /* показать все новости, катгории на главной */ 

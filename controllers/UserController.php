@@ -14,7 +14,6 @@ class UserController implements IController{
     {
         if ($_SERVER['REQUEST_METHOD']=='POST'){
             $this->handlerPOST();
-//            VarDump::dump($this->_where);die;
         }
         $search = [];
         $search['categories'] = CategoryModel::Factory('getAll');

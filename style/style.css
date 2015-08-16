@@ -173,3 +173,52 @@ span.slct {
     margin-left:20px;
 }
 
+/* loginform */
+#loginform {
+    margin: 0 auto;
+    width: 30em;
+}
+#loginform h1 {
+    display: block;
+    margin-top: 2em;
+    text-align: center;
+    font-size: 140%;
+    font-weight: bold;
+}
+#loginform form {
+    margin-top: 1em;
+    text-align: left;
+}
+#errorLogin {
+    margin: 3em 0px 0px;
+    border: 2px solid red;
+    padding: 0.1em 0.1em 0.1em 26px;
+    border-radius: 3px;
+    background-color: #FFC;
+    color: red;
+}
+
+fieldset {
+    margin-top: 1em;
+    border: 1px solid #000;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 0.5em;
+    background: #E5E5E5 none repeat scroll 0% 0%;
+}
+fieldset#fieldsetFooter {
+    margin-top: 0px;
+    margin-bottom: 0.5em;
+    border-top: 0px none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    text-align: right;
+    float: none;
+    clear: both;
+}
+input#inputGo {
+    border-radius: 3px;
+}
+
