@@ -30,62 +30,74 @@ class AdminController implements IController{
 /* добавление новости, катгории */     
     public function AddAction()
     {
-        $model = $this->_fc->getParams()['show'];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
-                    XOR 
-                (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
-                $this->save('add',$model);
-            } else {
-                $_SESSION['msgs'] = 'заполните все поля формы';
-                goto view_adm_add;
-            }
+        if (!isset($_SESSION['admin'])) {
+            Secure::logIn();
         } else {
-            view_adm_add:     // метка перехода
-            $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
-            $item = $_POST ? (object)$_POST : NULL;
-            $view = new ViewAdmSave($item,$categories,$model);
-            $view->getBody();
+            $model = $this->_fc->getParams()['show'];
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
+                        XOR 
+                    (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
+                    $this->save('add',$model);
+                } else {
+                    $_SESSION['msgs'] = 'заполните все поля формы';
+                    goto view_adm_add;
+                }
+            } else {
+                view_adm_add:     // метка перехода
+                $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
+                $item = $_POST ? (object)$_POST : NULL;
+                $view = new ViewAdmSave($item,$categories,$model);
+                $view->getBody();
+            }
         }
     }
     
 /* редактирование новости, катгории */        
     public function  EditAction()
     {
-        $model = $this->_fc->getParams()['show'];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
-                    XOR 
-                (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
-                $this->save('edit',$model);
-            } else {
-                $_SESSION['msgs'] = 'заполните все поля формы';
-                goto view_adm_edit;
-            }
+        if (!isset($_SESSION['admin'])) {
+            Secure::logIn();
         } else {
-            view_adm_edit:     // метка перехода
-            $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
-            $item = $_POST ? (object)$_POST : $this->get($model);
-            $view = new ViewAdmSave($item,$categories,$model);
-            $view->getBody();
+            $model = $this->_fc->getParams()['show'];
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
+                        XOR 
+                    (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
+                    $this->save('edit',$model);
+                } else {
+                    $_SESSION['msgs'] = 'заполните все поля формы';
+                    goto view_adm_edit;
+                }
+            } else {
+                view_adm_edit:     // метка перехода
+                $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
+                $item = $_POST ? (object)$_POST : $this->get($model);
+                $view = new ViewAdmSave($item,$categories,$model);
+                $view->getBody();
+            }
         }
     }
     
 /* удаление новости, катгории */     
     public function DeleteAction()
     {
-        $model = $this->_fc->getParams()['show'];
-        $model_name = (ucfirst($model).'Model');
-        $method_name = 'delete'.ucfirst($model);
-        if (array_key_exists('id', $this->_fc->getParams())){
-            if ($model != 'user') 
-                $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
-            else 
-                $arr_placeholders[':login'] = $this->_fc->getParams()['id'];
-            $model_name::Factory($method_name,$arr_placeholders);
-            header("Location:/admin/main/show/$model");
+        if (!isset($_SESSION['admin'])) {
+            Secure::logIn();
         } else {
-            echo 'неверные данные для обработки'; die;
+            $model = $this->_fc->getParams()['show'];
+            $model_name = (ucfirst($model).'Model');
+            $method_name = 'delete'.ucfirst($model);
+            if (array_key_exists('id', $this->_fc->getParams())){
+                if ($model != 'user') 
+                    $arr_placeholders[':id'] = abs((int)$this->_fc->getParams()['id']);
+                else 
+                    $arr_placeholders[':login'] = $this->_fc->getParams()['id'];
+                $model_name::Factory($method_name,$arr_placeholders);
+                header("Location:/admin/main/show/$model");
+            } else {
+                echo 'неверные данные для обработки'; die;
+            }
         }
     }
 /* закрытие сессии */
@@ -131,7 +143,8 @@ class AdminController implements IController{
         }
         return $place_array;
     }
-    
+
+/* обработчик формы пользователей */
     private function handlerUserForm() 
     {
         $arr = new HandlerUserForm($_POST);
