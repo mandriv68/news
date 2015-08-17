@@ -10,7 +10,6 @@ class HandlerUserForm {
     
     private function getSalt() 
     {
-        $salt = '';
         return $salt = (empty($this->_user['salt'])) ? str_replace('=', '', base64_encode(md5(microtime().'1FD37EAA5ED9425683326EA68DCD0E59'))) : $this->_user['salt'];
     }
     
@@ -27,7 +26,7 @@ class HandlerUserForm {
         $salt = $this->getSalt();
         $psw = $this->_user['pass'];
         for ($i = 0; $i < $it; $i++) {
-            $pass = sha1($psw.$salt);
+            $pass = sha1($psw . $salt);
         }
         return $pass;
     }

@@ -7,14 +7,13 @@ class AdminController implements IController{
     public function __construct() 
     {
         $this->_fc = FrontController::getInstance();
-//        Secure::logIn();
+        session_start();
     }
     
 /* показать все новости, катгории на главной */ 
-    public function 
-            MainAction()
+    public function  MainAction()
     {
-        if (!$_SESSION['user']) {
+        if (!isset($_SESSION['admin'])) {
             Secure::logIn();
         } else {
             $model = $this->_fc->getParams()['show'];
@@ -22,11 +21,6 @@ class AdminController implements IController{
             $model_name = (ucfirst($model).'Model');
             $items = $model_name::Factory('Main',NULL);
             if (!$items) { $_SESSION['res'] = 'нет данных для показа'; }
-    //        switch ($model) {
-    //            case 'category':$this->_marker = 'category'; break;
-    //            case 'user' :   $this->_marker = 'user'; break;
-    //            default:        $this->_marker = 'news'; break;
-    //        }
             $view = new ViewAdmMain($items,$model);
             $view->getBody();
             unset($_SESSION['res']);
@@ -37,7 +31,6 @@ class AdminController implements IController{
     public function AddAction()
     {
         $model = $this->_fc->getParams()['show'];
-//        unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
                     XOR 
@@ -60,7 +53,6 @@ class AdminController implements IController{
     public function  EditAction()
     {
         $model = $this->_fc->getParams()['show'];
-//        unset($_SESSION['msgs']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
                     XOR 
@@ -96,7 +88,14 @@ class AdminController implements IController{
             echo 'неверные данные для обработки'; die;
         }
     }
-    
+/* закрытие сессии */
+    public function LogoutAction() {
+        session_destroy();
+        header("Location:/admin/main");
+        exit;
+    }
+
+
 /* сохранение данных из формы */
     private function save($method,$model)
     {
@@ -105,7 +104,6 @@ class AdminController implements IController{
         $arr_placeholders = ($model != 'user') ? 
                 $this->handlerAddForm() : $this->handlerUserForm();
         $res = $model_name::Factory($method_name,$arr_placeholders);
-//        VarDump::dump($res);die;
         if ($res)
             header("Location:/admin/main/show/$model");
         else 
@@ -137,7 +135,6 @@ class AdminController implements IController{
     private function handlerUserForm() 
     {
         $arr = new HandlerUserForm($_POST);
-//        VarDump::dump($arr);
         $place_array = $arr->getPlaceholdersArr();
         return $place_array;
     }

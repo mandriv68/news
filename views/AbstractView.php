@@ -30,13 +30,16 @@ HTML;
             <div style="text-align:center; font-weight:700; color:#ff8300;">
                 АДМИНКА<br>ПУПКИНА
             </div>
+            <div style="text-align:center;"><a href="/admin/logout">выйти из админки</a></div>
             <ul>
                 <li><a href="/admin/main/show/news">Новости</a></li>
                 <li><a href="/admin/main/show/category">Категории</a></li>
-                <li><a href="/admin/main/show/user">Пользователи</a></li>
-            </ul>
-        </div>
 HTML_ENTITIES;
+        if ($_SESSION['privileg']=='superadmin'){
+          echo '<li><a href="/admin/main/show/user">Пользователи</a></li>';
+        }
+        echo '</ul>'.
+        '</div>';
     }
     
     protected function getSearch() {}
