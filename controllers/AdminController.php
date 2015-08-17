@@ -7,31 +7,34 @@ class AdminController implements IController{
     public function __construct() 
     {
         $this->_fc = FrontController::getInstance();
-        Secure::logIn();
+//        Secure::logIn();
     }
     
 /* показать все новости, катгории на главной */ 
     public function 
             MainAction()
     {
-        $model = $this->_fc->getParams()['show'];
-        if (!$model) $model = 'news';
-        $model_name = (ucfirst($model).'Model');
-        $items = $model_name::Factory('Main',NULL);
-        if (!$items) { $_SESSION['res'] = 'нет данных для показа'; }
-//        switch ($model) {
-//            case 'category':$this->_marker = 'category'; break;
-//            case 'user' :   $this->_marker = 'user'; break;
-//            default:        $this->_marker = 'news'; break;
-//        }
-        $view = new ViewAdmMain($items,$model);
-        $view->getBody();
-        unset($_SESSION['res']);
+        if (!$_SESSION['user']) {
+            Secure::logIn();
+        } else {
+            $model = $this->_fc->getParams()['show'];
+            if (!$model) $model = 'news';
+            $model_name = (ucfirst($model).'Model');
+            $items = $model_name::Factory('Main',NULL);
+            if (!$items) { $_SESSION['res'] = 'нет данных для показа'; }
+    //        switch ($model) {
+    //            case 'category':$this->_marker = 'category'; break;
+    //            case 'user' :   $this->_marker = 'user'; break;
+    //            default:        $this->_marker = 'news'; break;
+    //        }
+            $view = new ViewAdmMain($items,$model);
+            $view->getBody();
+            unset($_SESSION['res']);
+        }
     }
     
 /* добавление новости, катгории */     
-    public function 
-            AddAction()
+    public function AddAction()
     {
         $model = $this->_fc->getParams()['show'];
 //        unset($_SESSION['msgs']);
@@ -54,8 +57,7 @@ class AdminController implements IController{
     }
     
 /* редактирование новости, катгории */        
-    public function 
-            EditAction()
+    public function  EditAction()
     {
         $model = $this->_fc->getParams()['show'];
 //        unset($_SESSION['msgs']);
@@ -78,8 +80,7 @@ class AdminController implements IController{
     }
     
 /* удаление новости, катгории */     
-    public function 
-            DeleteAction()
+    public function DeleteAction()
     {
         $model = $this->_fc->getParams()['show'];
         $model_name = (ucfirst($model).'Model');
@@ -97,8 +98,7 @@ class AdminController implements IController{
     }
     
 /* сохранение данных из формы */
-    private function 
-            save($method,$model)
+    private function save($method,$model)
     {
         $method_name = $method.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
@@ -124,8 +124,7 @@ class AdminController implements IController{
 
 
 /* обработчик формы */
-    private function 
-            handlerAddForm()
+    private function  handlerAddForm()
     {
         $place_array = [];
         foreach ($_POST as $key => $value) {
@@ -135,10 +134,10 @@ class AdminController implements IController{
         return $place_array;
     }
     
-    private function 
-            handlerUserForm() 
+    private function handlerUserForm() 
     {
         $arr = new HandlerUserForm($_POST);
+//        VarDump::dump($arr);
         $place_array = $arr->getPlaceholdersArr();
         return $place_array;
     }
