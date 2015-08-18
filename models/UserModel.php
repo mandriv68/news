@@ -22,7 +22,7 @@ class UserModel extends AbstractModel{
                     self::$fields .= $f.',';             
                     self::$plaseholders .= $k.',';
                 }
-                if (FALSE == self::existsUser($plhld_array[':login'])) {
+                if (FALSE === self::existsUser($plhld_array[':login'])) {
                     $query = 'INSERT INTO '.self::$table.
                         ' ('. rtrim(self::$fields, ',') .') '
                         . 'VALUES('. rtrim(self::$plaseholders, ',') .')';
@@ -30,7 +30,7 @@ class UserModel extends AbstractModel{
                     $_SESSION['res'] = $res ? 'пользователь добавлен' : 'неверные данные';
                     return TRUE;
                 } else {
-                    $_SESSION['msgs'] = 'такой пользователь уже существует';
+                    $_SESSION['msgs'] = 'пользователь '.$plhld_array[':login'].' уже существует';
                     return FALSE;
                 }
                 break;
@@ -78,6 +78,8 @@ class UserModel extends AbstractModel{
     
     public static function existsUser($login) {
         $query = 'SELECT * FROM '.self::$table.' WHERE login=\''.$login.'\' LIMIT 1';
+        $res = DBconnect::getInstance()->query($query);
+//        VarDump::dump($res);die;
         return DBconnect::getInstance()->query($query);
     }
 }

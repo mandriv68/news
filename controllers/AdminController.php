@@ -38,7 +38,7 @@ class AdminController implements IController{
                 // проверяем заполнение обязательных полей
                 if ($this->checkPOST($model)) {
                     $opt = $this->_fc->getParams()['opt'];
-                    $this->save($opt,$model);
+                    $_SESSION['msgs'] = $this->save($opt,$model);
                 } else {
                     $_SESSION['msgs'] = 'заполните все поля формы';
                 }
@@ -87,10 +87,13 @@ class AdminController implements IController{
         $arr_placeholders = ($model != 'user') ? 
                 $this->handlerAddForm() : $this->handlerUserForm();
         $res = $model_name::Factory($method_name,$arr_placeholders);
+//        VarDump::dump($res);die;
         if ($res)
             header("Location:/admin/main/show/$model");
-        else 
-            header("Location:/admin/add/show/$model");
+        else {
+            return $_SESSION['msgs'];
+//            header("Location:/admin/save/show/$model/opt/$method");
+        }
     }
     
 /* заполнить форму для редактирования данными из БД новости, катгории */     
