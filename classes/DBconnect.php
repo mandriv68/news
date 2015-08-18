@@ -46,7 +46,9 @@ class DBconnect {
             echo '<b>нет данных для ввода</b>';
             exit;
         }
-        else return $res;
+        else {
+            return $res;
+        }
     }
     public function query($query) {
         return $this->_pdo->query($query)->fetch(PDO::FETCH_ASSOC);

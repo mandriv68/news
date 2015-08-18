@@ -28,7 +28,7 @@ class CategoryModel extends AbstractModel{
                     . 'VALUES('.self::$plaseholders.')';
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = $res ? 'категория успешно добавлена' : 'неверные данные';
-                break;
+                return $res;
                 
 /* выборка одной категории */
             case 'getCategory':
@@ -53,7 +53,7 @@ class CategoryModel extends AbstractModel{
                 $query = 'UPDATE '.self::$table.' SET '.rtrim($set,",").' WHERE '.$where;
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = ($res==TRUE) ? 'категория успешно обновлена' : 'неверные данные';
-                break;
+                return $res;
                 
 /* удаление категории */    
             case 'deleteCategory':
@@ -64,7 +64,7 @@ class CategoryModel extends AbstractModel{
                 $query = 'DELETE FROM '.self::$table.self::$where;
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = ($res==TRUE) ? 'категория успешно удалена' : 'неверные данные';
-                break;
+                return $res;
             
 /* выбрать все категории из таблицы categories*/
             default:

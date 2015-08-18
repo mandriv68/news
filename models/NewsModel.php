@@ -3,22 +3,22 @@
 class NewsModel extends AbstractModel{
     
     protected static $table = 'articles';
-    protected static $fields = 'id,title,description,text,author,datetime,category';
+    protected static $fields = 'id,title,description,txt,author,dt,category';
     protected static $placeholders = '';
 
-    public static function Factory($method_name, $plhld_array) 
+    public static function Factory($method_name, $plhld_array = NULL) 
     {
         switch ($method_name) {
             
 /* выборка одной новости */
             case 'getNews':
                 self::$table .= ',categories';
-                self::$fields .= ',categories.title AS cat';
+                self::$fields = 'articles.id AS id, articles.title AS title, articles.description AS description, articles.txt AS txt, articles.author AS author, articles.dt AS dt, articles.category AS category, categories.title AS cat';
                 list($key,$val) = each($plhld_array);
-                self::$where = ' WHERE '.$key.'='.$val;
-                self::$where .= ' AND categories.id=articles.category';
+                self::$where = ' WHERE articles.'.$key.'='.$val;
+                self::$where .= ' AND categories.id = articles.category';
                 $query = 'SELECT '.self::$fields.' FROM '.self::$table.self::$where;
-                return self::getOne($query);
+                return $res = self::getOne($query);
             
 /* удаление новости */    
             case 'deleteNews':
@@ -46,7 +46,7 @@ class NewsModel extends AbstractModel{
                 $query = 'UPDATE '.self::$table.' SET '.rtrim($set,",").' WHERE '.$where;
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = ($res==TRUE) ? 'новость успешно обновлена' : 'неверные данные';
-                break;
+                return $res;
                 
 /* добавление новости */
             case 'addNews':
@@ -61,7 +61,7 @@ class NewsModel extends AbstractModel{
                 $query = 'INSERT INTO '.self::$table.' ('.self::$fields.') VALUES('.self::$plaseholders.')';
                 $res = self::saveANDdelete($query, $plhld_array);
                 $_SESSION['res'] = $res ? 'новость успешно добавлена' : 'неверные данные';
-                break;
+                return $res;
                 
             
 /* показать все новости */
@@ -83,9 +83,9 @@ class NewsModel extends AbstractModel{
                 case 'category': 
                     $where .= ' WHERE '.$key.'='.$val; break;
                 case 'from_date':
-                    $where .= ($pos===FALSE) ? (' WHERE datetime >= '.self::mkTime($val)) : (' AND datetime >= '.self::mkTime($val)); break;
+                    $where .= ($pos===FALSE) ? (' WHERE dt >= '.self::mkTime($val)) : (' AND dt >= '.self::mkTime($val)); break;
                 case 'by_date':
-                    $where .= ($pos===FALSE) ? (' WHERE datetime <= '.  self::mkTime($val)) : (' AND datetime <= '.self::mkTime($val)); break;
+                    $where .= ($pos===FALSE) ? (' WHERE dt <= '.  self::mkTime($val)) : (' AND dt <= '.self::mkTime($val)); break;
                 case 'author':
                     $where .= ($pos===FALSE) ? (' WHERE LOWER('.$key.') LIKE \'%'.strtolower($val).'%\'') : (' AND LOWER('.$key.') LIKE \'%'.strtolower($val).'%\''); break;
             }

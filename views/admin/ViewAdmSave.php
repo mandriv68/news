@@ -30,9 +30,6 @@ HTML_ENTITIES;
             }
             echo <<<HTML_ENTITIES
               ::</div>
-                <div id="button">
-                    <a href="/admin/add/show/$this->_model">добавить ещё</a>
-                </div>
                 <div id="button" style="margin-left:10px;">
                     <a href="/admin/main/show/$this->_model">назад</a>
                 </div> 

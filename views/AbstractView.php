@@ -59,7 +59,7 @@ HTML;
     
     protected function getBody() {}
     
-    protected function getFormNews($datetime,$categories,$news = NULL) {
+    protected function getFormNews($dt,$categories,$news = NULL) {
         echo <<<HTML_ENTITIES
     <form action="" method="POST">
         <p>Название новости<br/>
@@ -69,11 +69,11 @@ HTML;
            <textarea name="description" cols="50" rows="7">{$news->description}</textarea>
         </p>
         <p>Полный текст новости<br/>
-           <textarea name="text" cols="50" rows="7">{$news->text}</textarea>
+           <textarea name="txt" cols="50" rows="7">{$news->txt}</textarea>
         </p>
         <p>Автор<br/>
            <input name="author" type="text" style="width:420px" value="{$news->author}"/>
-           <input name="datetime" type="hidden" value="$datetime"/>
+           <input name="dt" type="hidden" value="$dt"/>
         </p>
         <select name="category">
 HTML_ENTITIES;

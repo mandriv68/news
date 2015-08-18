@@ -19,63 +19,34 @@ class AdminController implements IController{
             $model = $this->_fc->getParams()['show'];
             if (!$model) $model = 'news';
             $model_name = (ucfirst($model).'Model');
-            $items = $model_name::Factory('Main',NULL);
-            if (!$items) { $_SESSION['res'] = 'нет данных для показа'; }
+            $items = $model_name::Factory('Main');
+            if (!$items) { $_SESSION['res'] = 'Их нет у Нас, что-бы Вам показать'; }
             $view = new ViewAdmMain($items,$model);
             $view->getBody();
             unset($_SESSION['res']);
         }
     }
     
-/* добавление новости, катгории */     
-    public function AddAction()
+/* добавление и редактирование новости, категории */     
+    public function SaveAction()
     {
         if (!isset($_SESSION['admin'])) {
             Secure::logIn();
         } else {
-            $model = $this->_fc->getParams()['show'];
+            $model = strtolower($this->_fc->getParams()['show']);
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-                if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
-                        XOR 
-                    (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
-                    $this->save('add',$model);
+                // проверяем заполнение обязательных полей
+                if ($this->checkPOST($model)) {
+                    $opt = $this->_fc->getParams()['opt'];
+                    $this->save($opt,$model);
                 } else {
                     $_SESSION['msgs'] = 'заполните все поля формы';
-                    goto view_adm_add;
                 }
-            } else {
-                view_adm_add:     // метка перехода
-                $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
-                $item = $_POST ? (object)$_POST : NULL;
-                $view = new ViewAdmSave($item,$categories,$model);
-                $view->getBody();
-            }
-        }
-    }
-    
-/* редактирование новости, катгории */        
-    public function  EditAction()
-    {
-        if (!isset($_SESSION['admin'])) {
-            Secure::logIn();
-        } else {
-            $model = $this->_fc->getParams()['show'];
-            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-                if ((!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['text'])&&!empty($_POST['author'])) 
-                        XOR 
-                    (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role']))) {
-                    $this->save('edit',$model);
-                } else {
-                    $_SESSION['msgs'] = 'заполните все поля формы';
-                    goto view_adm_edit;
-                }
-            } else {
-                view_adm_edit:     // метка перехода
+            } 
                 $categories = ($model == 'news') ? CategoryModel::Factory('getAll') : NULL;
                 $item = $_POST ? (object)$_POST : $this->get($model);
                 $view = new ViewAdmSave($item,$categories,$model);
                 $view->getBody();
-            }
         }
     }
     
@@ -123,13 +94,14 @@ class AdminController implements IController{
     }
     
 /* заполнить форму для редактирования данными из БД новости, катгории */     
-    private function 
-            get($model) 
+    private function get($model) 
     {
         $method_name = 'get'.ucfirst($model);
         $model_name = (ucfirst($model).'Model');
         $arr_plhld['id'] = ($model != 'user') ? abs((int)$this->_fc->getParams()['id']) : $this->_fc->getParams()['id'];
-        return $model_name::Factory($method_name,$arr_plhld);
+        if($arr_plhld['id']==0) 
+             return NULL;
+        else return $model_name::Factory($method_name,$arr_plhld);
     }
 
 
@@ -150,6 +122,19 @@ class AdminController implements IController{
         $arr = new HandlerUserForm($_POST);
         $place_array = $arr->getPlaceholdersArr();
         return $place_array;
+    }
+
+/* проверяем заполнения обязательных полей формы*/
+    private function checkPOST($model) {
+        $res = '';
+        switch ($model) {
+            case 'news':
+                return $res = (!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['txt'])&&!empty($_POST['author'])) ? TRUE : FALSE;
+            case 'category':
+                return $res = (!empty($_POST['title'])&&!empty($_POST['description'])) ? TRUE : FALSE;
+            case 'user':
+                return $res = (!empty($_POST['login'])&&!empty($_POST['pass'])&&!empty($_POST['role'])) ? TRUE : FALSE;
+        }
     }
     
 }

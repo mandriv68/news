@@ -37,7 +37,7 @@ HTML_ENTITIES;
             echo <<<HTML_ENTITIES
               ::</div>
                 <div id="button">
-                    <a href="/admin/add/show/$this->_method">добавить $button_add</a>
+                    <a href="/admin/save/show/$this->_method/opt/add">добавить $button_add</a>
                 </div>
             </div>
 HTML_ENTITIES;
@@ -51,7 +51,7 @@ HTML_ENTITIES;
     
     private function AllNews() {
         foreach ($this->_items as $news) {
-                $href_edit = '/admin/edit/show/'.$this->_method.'/id/'.$news->id;
+                $href_edit = '/admin/save/show/'.$this->_method.'/opt/edit/id/'.$news->id;
                 $href_del = '/admin/delete/show/'.$this->_method.'/id/'.$news->id;
                 $sub = substr($news->description,0,300);
                 $desc =  explode(' ',$sub);
@@ -74,7 +74,7 @@ HTML_ENTITIES;
 
     private function AllCategory() {
         foreach ($this->_items as $category) {
-                $href_edit = '/admin/edit/show/'.$this->_method.'/id/'.$category->id;
+                $href_edit = '/admin/save/show/'.$this->_method.'/opt/edit/id/'.$category->id;
                 $href_del = '/admin/delete/show/'.$this->_method.'/id/'.$category->id;
                 echo <<<HTML_ENTITIES
             <div class="item_box">
@@ -92,7 +92,7 @@ HTML_ENTITIES;
     
     private function AllUser() {
         foreach ($this->_items as $user) {
-                $href_edit = '/admin/edit/show/'.$this->_method.'/id/'.$user->login;
+                $href_edit = '/admin/save/show/'.$this->_method.'/opt/edit/id/'.$user->login;
                 $href_del = '/admin/delete/show/'.$this->_method.'/id/'.$user->login;
                 echo <<<HTML_ENTITIES
             <div class="item_box">
